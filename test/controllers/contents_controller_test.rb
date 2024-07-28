@@ -15,16 +15,23 @@ class ContentsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test 'should create content' do
+    post contents_url, params: { content: { title: 'Test Content', body: 'Test Body' } }
+    content = JSON.parse response.body
+    assert_response :success
+    assert_equal "Test Content", content['content']['title']
+  end
 
   test "should update content" do
     patch content_url(@content), params: { content:  { title: "Updated Title" } }
-    assert_redirected_to content_url(@content)
+    content = JSON.parse response.body
+    assert_response :success
+    assert_equal "Updated Title", content['content']['title']
   end
 
   test "should destroy content" do
     assert_difference('Content.count', -1) do
       delete content_url(@content)
     end
-    assert_redirected_to contents_url
   end
 end
