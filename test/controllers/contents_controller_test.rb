@@ -22,6 +22,12 @@ class ContentsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Test Content", content['content']['title']
   end
 
+  test "should update content with validation errors" do
+    patch content_url(@content), params: { content: { title: "" } }
+    assert_response :unprocessable_entity
+    assert_equal ["Title can't be blank"], JSON.parse(response.body)["errors"]
+  end
+
   test "should update content" do
     patch content_url(@content), params: { content:  { title: "Updated Title" } }
     content = JSON.parse response.body
@@ -33,5 +39,10 @@ class ContentsControllerTest < ActionDispatch::IntegrationTest
     assert_difference('Content.count', -1) do
       delete content_url(@content)
     end
+  end
+
+  test "should not destroy non-existent content" do
+    delete content_url(100)
+    assert_response :not_found
   end
 end

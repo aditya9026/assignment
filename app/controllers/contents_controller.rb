@@ -16,7 +16,7 @@ class ContentsController < ApplicationController
     if @content.save
       render json:  { content: @content, success: true }
     else
-      render json:  { content: @content, errors: @content.errors.full_messages, success: false }
+      render json:  { content: @content, errors: @content.errors.full_messages, success: false }, status: :unprocessable_entity
     end
   end
 
@@ -24,7 +24,7 @@ class ContentsController < ApplicationController
     if @content.update(content_params)
       render json:  { content: @content, success: true }
     else
-      render json:  { content: @content, errors: @content.errors.full_messages, success: false }
+      render json:  { content: @content, errors: @content.errors.full_messages, success: false }, status: :unprocessable_entity
     end
   end
 
@@ -32,7 +32,7 @@ class ContentsController < ApplicationController
     if @content.destroy
       render json:  { content: @content, success: true }
     else
-      render json:  { content: @content, errors: @content.errors.full_messages, success: false }
+      render json:  { content: @content, errors: @content.errors.full_messages, success: false }, status: :unprocessable_entity
     end
   end
 
