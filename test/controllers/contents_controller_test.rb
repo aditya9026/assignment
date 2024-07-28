@@ -14,4 +14,17 @@ class ContentsControllerTest < ActionDispatch::IntegrationTest
     get content_url(@content)
     assert_response :success
   end
+
+
+  test "should update content" do
+    patch content_url(@content), params: { content:  { title: "Updated Title" } }
+    assert_redirected_to content_url(@content)
+  end
+
+  test "should destroy content" do
+    assert_difference('Content.count', -1) do
+      delete content_url(@content)
+    end
+    assert_redirected_to contents_url
+  end
 end
